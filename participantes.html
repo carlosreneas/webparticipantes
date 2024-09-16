@@ -16,7 +16,7 @@
     </header>
   </div>
   <div class="row">
-    <div class="col-12 col-sm-12 col-md-6">
+    <div class="col-12 col-sm-12 col-md-9">
      Participantes
      <button id="loadButton" class="btn btn-primary">Cargar Participantes</button>
       <table class="table table-striped">
@@ -26,6 +26,7 @@
 		      <th scope="col">Email</th>
 		      <th scope="col">Alias</th>
 		      <th scope="col">Edad</th>
+		      <th scope="col">Acción</th>
 		    </tr>
 		  </thead>
 		  <tbody id="participantsTableBody">
@@ -33,7 +34,7 @@
 		  </tbody>
 		</table>
     </div>
-    <div class="col-12 col-sm-6 col-md-3">
+    <div class="col-12 col-sm-3 col-md-3">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -58,6 +59,31 @@
     </footer>
   </div>
 </div>
+
+
+<!-- Modal -->
+    <div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="participantModalLabel">Detalles del Participante</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p><strong>Nombre:</strong> <span id="modalName"></span></p>
+                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    <p><strong>Alias:</strong> <span id="modalAlias"></span></p>
+                    <p><strong>Edad:</strong> <span id="modalAge"></span></p>
+                    <p><strong>Capa:</strong> <span id="modalCapa"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="js/script.js"></script>
 </body>
