@@ -61,28 +61,44 @@
   </div>
 </div>
 
+<!-- Modal para editar participante -->
+<div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="participantModalLabel">Modificar Participante</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="modalNameInput">Nombre</label>
+                  <input type="text" id="modalNameInput" class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="modalEmailInput">Email</label>
+                  <input type="email" id="modalEmailInput" class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="modalAliasInput">Alias</label>
+                  <input type="text" id="modalAliasInput" class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="modalAgeInput">Edad</label>
+                  <input type="number" id="modalAgeInput" class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="modalCapaInput">Capa</label>
+                  <input type="text" id="modalCapaInput" class="form-control">
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" id="saveChangesButton">Guardar Cambios</button>
+          </div>
+      </div>
+  </div>
+</div>
 
-<!-- Modal -->
-    <div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="participantModalLabel">Detalles del Participante</h5>
-
-                </div>
-                <div class="modal-body">
-                    <p><strong>Nombre:</strong> <span id="modalName"></span></p>
-                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-                    <p><strong>Alias:</strong> <span id="modalAlias"></span></p>
-                    <p><strong>Edad:</strong> <span id="modalAge"></span></p>
-                    <p><strong>Capa:</strong> <span id="modalCapa"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
