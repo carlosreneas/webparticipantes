@@ -81,6 +81,6 @@ function deleteParticipant(alias) {
         });
     }
 }
-
+//Codigo Majo actualizado
 // Asignar el evento al botón "Cargar Participantes"
 document.getElementById('loadButton').addEventListener('click', fetchAndDisplayParticipants);
