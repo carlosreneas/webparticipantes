@@ -6,14 +6,15 @@ function fetchAndDisplayParticipants() {
     fetch(url)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error en la respuesta de la red');
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then(data => {
             const tableBody = document.getElementById('participantsTableBody');
-            tableBody.innerHTML = '';  // Limpiar la tabla antes de agregar
-            const limit = 20;
+            tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar los datos
+
+            let limit = 20;
             const limitedData = data.slice(0, limit);
 
             limitedData.forEach(participant => {
@@ -23,12 +24,17 @@ function fetchAndDisplayParticipants() {
                     <td>${participant.email}</td>
                     <td>${participant.alias}</td>
                     <td>${participant.edad}</td>
-                    <td><button class="btn btn-info btn-sm" onclick="showParticipantDetails('${participant.alias}')">Detalles</button></td>
+                    <td>
+                        <button class="btn btn-info btn-sm" data-alias="${participant.alias}" onclick="showParticipantDetails('${participant.alias}')">Detalles</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteParticipant('${participant.alias}')">Eliminar</button>
+                    </td>
                 `;
                 tableBody.appendChild(row);
             });
         })
-        .catch(error => console.error('Error al obtener los participantes:', error));
+        .catch(error => {
+            console.error('Hubo un problema con la operación fetch:', error);
+        });
 }
 
 // Función para mostrar los detalles del participante
@@ -38,7 +44,7 @@ function showParticipantDetails(alias) {
     fetch(`${url}/${alias}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error en la respuesta de la red');
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
@@ -50,62 +56,31 @@ function showParticipantDetails(alias) {
             document.getElementById('modalCapa').textContent = participant.capa;
             modal.show();
         })
-        .catch(error => console.error('Error al obtener detalles:', error));
+        .catch(error => {
+            console.error('Hubo un problema con la operación fetch:', error);
+        });
 }
 
-// Función para agregar un nuevo participante
-function addParticipant(event) {
-    event.preventDefault();
-    const name = document.getElementById('nameInput').value.trim();
-    const email = document.getElementById('emailInput').value.trim();
-    const alias = document.getElementById('aliasInput').value.trim();
-    const age = parseInt(document.getElementById('ageInput').value.trim(), 10);
-
-    if (!name || !email || !alias || isNaN(age)) {
-        alert('Por favor, completa todos los campos correctamente.');
-        return;
+// Función para eliminar un participante tanto en el servidor como en la interfaz
+function deleteParticipant(alias) {
+    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este participante?");
+    
+    if (confirmDelete) {
+        fetch(`${url}/${alias}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo eliminar el participante');
+            }
+            alert('Participante eliminado correctamente.');
+            fetchAndDisplayParticipants(); // Recargar la lista después de eliminar
+        })
+        .catch(error => {
+            console.error('Hubo un problema al eliminar el participante:', error);
+        });
     }
-
-    const newParticipant = {
-        nombre: name,
-        email: email,
-        alias: alias,
-        edad: age
-    };
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newParticipant)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al agregar participante');
-        }
-        return response.json();
-    })
-    .then(() => {
-        // Recargar la lista de participantes
-        fetchAndDisplayParticipants();
-        // Limpiar el formulario
-        document.getElementById('addParticipantForm').reset();
-        // Cerrar el modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addParticipantModal'));
-        modal.hide();
-    })
-    .catch(error => console.error('Error:', error));
 }
 
-// Evento para cargar participantes al hacer clic en el botón
+// Asignar el evento al botón "Cargar Participantes"
 document.getElementById('loadButton').addEventListener('click', fetchAndDisplayParticipants);
-
-// Evento para abrir el modal de agregar participante
-document.getElementById('addButton').addEventListener('click', () => {
-    const modal = new bootstrap.Modal(document.getElementById('addParticipantModal'));
-    modal.show();
-});
-
-// Evento para enviar el formulario de agregar participante
-document.getElementById('addParticipantForm').addEventListener('submit', addParticipant);
