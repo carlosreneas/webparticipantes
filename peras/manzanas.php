@@ -6,7 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>prueba para el repositorio</h1>
-    <p> yp</p>
+    <?php
+    echo "hola";
+    $Hola = "hola";
+    echo $Hola;
+    ?>
+    
 </body>
 </html>
