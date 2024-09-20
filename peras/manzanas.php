@@ -8,6 +8,8 @@
 <body>
     <?php
     echo "hola";
+    $Hola = "hola";
+    echo $Hola;
     ?>
     
 </body>
