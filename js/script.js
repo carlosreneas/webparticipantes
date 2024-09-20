@@ -42,7 +42,6 @@ function editParticipant(index) {
     document.getElementById('modalEmailInput').value = participant.email;
     document.getElementById('modalAliasInput').value = participant.alias;
     document.getElementById('modalAgeInput').value = participant.edad;
-    document.getElementById('modalCapaInput').value = participant.capa;
 
     // Guardar el índice del participante en el botón de guardar cambios
     document.getElementById('saveChangesButton').setAttribute('data-index', index);
@@ -62,7 +61,6 @@ document.getElementById('saveChangesButton').addEventListener('click', function 
         email: document.getElementById('modalEmailInput').value,
         alias: document.getElementById('modalAliasInput').value,
         edad: document.getElementById('modalAgeInput').value,
-        capa: document.getElementById('modalCapaInput').value
     };
 
     // Actualizar los datos del participante en el servidor
