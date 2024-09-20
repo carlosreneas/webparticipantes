@@ -45,20 +45,11 @@
     </div>
     <div class="col-12 col-sm-6 col-md-3">
       <ul>
-<<<<<<< HEAD
         <li>Opción 1</li>
         <li>Opción 2</li>
         <li>Opción 3</li>
         <li>Opción 4</li>
         <li>Opción 5</li>
-=======
-      	<li>Opcion 1</li>
-      	<li>Opcion 2</li>
-      	<li>Opcion 3</li>
-      	<li>Opcion 4</li>
-      	<li>Opcion 5</li>
-        <li>Opcion 6</li>
->>>>>>> 8fee33ca22acac014f8965cb79930d58d34f8518
       </ul>
     </div>
   </div>
@@ -69,23 +60,25 @@
   </div>
 </div>
 
-<!-- Modal para mostrar detalles -->
-<div class="modal fade" id="participantModal" tabindex="-1" aria-labelledby="participantModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detalles del Participante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Nombre:</strong> <span id="modalName"></span></p>
-                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-                <p><strong>Alias:</strong> <span id="modalAlias"></span></p>
-                <p><strong>Edad:</strong> <span id="modalAge"></span></p>
-                <p><strong>Capa:</strong> <span id="modalCapa"></span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+<!-- Modal -->
+    <div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="participantModalLabel">Detalles del Participante</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p><strong>Nombre:</strong> <span id="modalName"></span></p>
+                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    <p><strong>Alias:</strong> <span id="modalAlias"></span></p>
+                    <p><strong>Edad:</strong> <span id="modalAge"></span></p>
+                    <p><strong>Capa:</strong> <span id="modalCapa"></span></p>
+                </div>
+                <div class="modal-footer" id="modalButtons">
+                    
+                </div>
             </div>
         </div>
     </div>
