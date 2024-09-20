@@ -66,6 +66,7 @@ function deleteParticipant(alias) {
     const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este participante?");
     
     if (confirmDelete) {
+        // Eliminar del servidor
         fetch(`${url}/${alias}`, {
             method: 'DELETE'
         })
@@ -74,11 +75,27 @@ function deleteParticipant(alias) {
                 throw new Error('No se pudo eliminar el participante');
             }
             alert('Participante eliminado correctamente.');
-            fetchAndDisplayParticipants(); // Recargar la lista
+            
+            // Actualizar la lista local sin recargar
+            removeParticipantFromTable(alias);
         })
         .catch(error => {
             console.error('Hubo un problema al eliminar el participante:', error);
         });
+    }
+}
+
+// Función para remover al participante de la tabla sin recargar
+function removeParticipantFromTable(alias) {
+    const tableBody = document.getElementById('participantsTableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+
+    // Buscar la fila del participante con el alias dado
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].querySelector('td:nth-child(3)').textContent === alias) {
+            tableBody.removeChild(rows[i]);
+            break;
+        }
     }
 }
 
