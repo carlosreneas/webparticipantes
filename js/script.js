@@ -12,8 +12,8 @@ function fetchAndDisplayParticipants() {
         })
         .then(data => {
             const tableBody = document.getElementById('participantsTableBody');
-            tableBody.innerHTML = '';  // Limpiar la tabla antes de agregar
-            const limit = 20;
+            let limit = 20;
+
             const limitedData = data.slice(0, limit);
 
             limitedData.forEach(participant => {
@@ -23,7 +23,7 @@ function fetchAndDisplayParticipants() {
                     <td>${participant.email}</td>
                     <td>${participant.alias}</td>
                     <td>${participant.edad}</td>
-                    <td><button class="btn btn-info btn-sm" onclick="showParticipantDetails('${participant.alias}')">Detalles</button></td>
+                    <td><button class="btn btn-info btn-sm" data-alias="${participant.alias}" onclick="showParticipantDetails('${participant.alias}')">Detalles</button></td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -50,55 +50,14 @@ function showParticipantDetails(alias) {
             document.getElementById('modalCapa').textContent = participant.capa;
             modal.show();
         })
-        .catch(error => console.error('Error al obtener detalles:', error));
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
 
-// Función para agregar un nuevo participante
-function addParticipant(event) {
-    event.preventDefault();
-    const name = document.getElementById('nameInput').value.trim();
-    const email = document.getElementById('emailInput').value.trim();
-    const alias = document.getElementById('aliasInput').value.trim();
-    const age = parseInt(document.getElementById('ageInput').value.trim(), 10);
 
-    if (!name || !email || !alias || isNaN(age)) {
-        alert('Por favor, completa todos los campos correctamente.');
-        return;
-    }
-
-    const newParticipant = {
-        nombre: name,
-        email: email,
-        alias: alias,
-        edad: age
-    };
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newParticipant)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al agregar participante');
-        }
-        return response.json();
-    })
-    .then(() => {
-        // Recargar la lista de participantes
-        fetchAndDisplayParticipants();
-        // Limpiar el formulario
-        document.getElementById('addParticipantForm').reset();
-        // Cerrar el modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addParticipantModal'));
-        modal.hide();
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-// Evento para cargar participantes al hacer clic en el botón
+// Llama a la función para cargar los datos cuando se cargue la página
+//document.addEventListener('DOMContentLoaded', fetchAndDisplayParticipants);
 document.getElementById('loadButton').addEventListener('click', fetchAndDisplayParticipants);
 
 // Evento para abrir el modal de agregar participante
