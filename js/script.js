@@ -56,19 +56,37 @@ function editParticipant(index) {
 document.getElementById('saveChangesButton').addEventListener('click', function () {
     const index = this.getAttribute('data-index'); // Obtener el índice del participante
 
-    // Actualizar los datos del participante con los valores del modal
-    participants[index].nombre = document.getElementById('modalNameInput').value;
-    participants[index].email = document.getElementById('modalEmailInput').value;
-    participants[index].alias = document.getElementById('modalAliasInput').value;
-    participants[index].edad = document.getElementById('modalAgeInput').value;
-    participants[index].capa = document.getElementById('modalCapaInput').value;
+    // Obtener los nuevos valores del modal
+    const updatedParticipant = {
+        nombre: document.getElementById('modalNameInput').value,
+        email: document.getElementById('modalEmailInput').value,
+        alias: document.getElementById('modalAliasInput').value,
+        edad: document.getElementById('modalAgeInput').value,
+        capa: document.getElementById('modalCapaInput').value
+    };
 
-    // Volver a renderizar la tabla con los cambios
-    updateTable();
+    // Actualizar los datos del participante en el servidor
+    fetch(`${url}/${updatedParticipant.alias}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedParticipant)
+    })
+    .then(response => {
+        if (response.ok) {
+            // Actualizar los datos en la tabla
+            participants[index] = updatedParticipant;
+            updateTable();
 
-    // Cerrar el modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('participantModal'));
-    modal.hide();
+            // Cerrar el modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('participantModal'));
+            modal.hide();
+        } else {
+            console.error('Error al actualizar participante');
+        }
+    })
+    .catch(error => console.error('Error al enviar cambios:', error));
 });
 
 // Cargar la tabla al hacer clic en el botón "Cargar Participantes"
