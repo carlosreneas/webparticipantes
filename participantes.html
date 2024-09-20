@@ -1,90 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Listar Participantes</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listar Participantes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <div class="container">
-  <h1>Hello, world!</h1>
+  <h1>Participantes</h1>
   <div class="row">
     <header class="col">
       Encabezado
     </header>
   </div>
   <div class="row">
-    <div class="col-12 col-sm-12 col-md-9">
-     Participantes
+    <div class="col-12 col-md-9">
      <button id="loadButton" class="btn btn-primary">Cargar Participantes</button>
-      <table class="table table-striped">
-		  <thead>
-		    <tr>
-		      <th scope="col">Nombre</th>
-		      <th scope="col">Email</th>
-		      <th scope="col">Alias</th>
-		      <th scope="col">Edad</th>
-		      <th scope="col">Acción</th>
-		    </tr>
-		  </thead>
-		  <tbody id="participantsTableBody">
-
-		  </tbody>
-		</table>
+     <button id="addButton" class="btn btn-success">Agregar Participante</button>
+     
+     <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Email</th>
+              <th scope="col">Alias</th>
+              <th scope="col">Edad</th>
+              <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tbody id="participantsTableBody"></tbody>
+      </table>
     </div>
-    <div class="col-12 col-sm-3 col-md-3">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <div class="col-12 col-md-3">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
     </div>
     <div class="col-12 col-sm-6 col-md-3">
       <ul>
-      	<li>Opcion 1</li>
-      	<li>Opcion 2</li>
-      	<li>Opcion 3</li>
-      	<li>Opcion 4</li>
-      	<li>Opcion 5</li>
+        <li>Opción 1</li>
+        <li>Opción 2</li>
+        <li>Opción 3</li>
+        <li>Opción 4</li>
+        <li>Opción 5</li>
       </ul>
     </div>
-
   </div>
   <div class="row">
     <footer class="col">
-      Pie de pagina
+      Pie de página
     </footer>
   </div>
 </div>
 
-
-<!-- Modal -->
-    <div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="participantModalLabel">Detalles del Participante</h5>
-
-                </div>
-                <div class="modal-body">
-                    <p><strong>Nombre:</strong> <span id="modalName"></span></p>
-                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-                    <p><strong>Alias:</strong> <span id="modalAlias"></span></p>
-                    <p><strong>Edad:</strong> <span id="modalAge"></span></p>
-                    <p><strong>Capa:</strong> <span id="modalCapa"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+<!-- Modal para mostrar detalles -->
+<div class="modal fade" id="participantModal" tabindex="-1" aria-labelledby="participantModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Participante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nombre:</strong> <span id="modalName"></span></p>
+                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                <p><strong>Alias:</strong> <span id="modalAlias"></span></p>
+                <p><strong>Edad:</strong> <span id="modalAge"></span></p>
+                <p><strong>Capa:</strong> <span id="modalCapa"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<!-- Modal para agregar participante -->
+<div class="modal fade" id="addParticipantModal" tabindex="-1" aria-labelledby="addParticipantModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Participante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addParticipantForm">
+                    <div class="mb-3">
+                        <label for="nameInput" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nameInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="emailInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aliasInput" class="form-label">Alias</label>
+                        <input type="text" class="form-control" id="aliasInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ageInput" class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="ageInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Librerías de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz5G1K9T+6rPcSxm0nGFm2knLwL00qk3E6jliZB73Kfkx13YlO58PL0JKI" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- Archivo JavaScript Externo -->
 <script src="js/script.js"></script>
 </body>
 </html>
