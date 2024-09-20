@@ -6,7 +6,11 @@
     <title>Document</title>
 </head>
 <body>
+    <?php
+    echo "hola";
+    $Hola = "hola";
+    echo $Hola;
+    ?>
     
-    <h1>Hola</h1>
 </body>
 </html>
