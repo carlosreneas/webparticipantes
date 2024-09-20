@@ -12,7 +12,7 @@ function fetchAndDisplayParticipants() {
         })
         .then(data => {
             const tableBody = document.getElementById('participantsTableBody');
-            tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar los datos
+            tableBody.innerHTML = '';  // Limpiamos la tabla
 
             let limit = 20;
             const limitedData = data.slice(0, limit);
@@ -29,6 +29,7 @@ function fetchAndDisplayParticipants() {
                         <button class="btn btn-danger btn-sm" onclick="deleteParticipant('${participant.alias}')">Eliminar</button>
                     </td>
                 `;
+
                 tableBody.appendChild(row);
             });
         })
@@ -84,3 +85,129 @@ function deleteParticipant(alias) {
 //Codigo Majo actualizado
 // Asignar el evento al botón "Cargar Participantes"
 document.getElementById('loadButton').addEventListener('click', fetchAndDisplayParticipants);
+
+
+function addParticipant(event) {
+    event.preventDefault(); // Evitar que el formulario se envíe por defecto
+
+    const nombre = document.getElementById('nombre').value;
+    const email = document.getElementById('email').value;
+    const alias = document.getElementById('alias').value;
+    const edad = document.getElementById('edad').value;
+    const capa = document.getElementById('capa').value;
+
+    const newParticipant = {
+        nombre,
+        email,
+        alias,
+        edad,
+        capa
+    };
+
+    console.log('Datos del nuevo participante:', newParticipant);  // Para depurar los datos
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newParticipant)
+    })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Error en la respuesta de la API:', response);
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Nuevo participante agregado:', data);
+
+            // Actualizar la tabla después de un pequeño retraso para asegurarse de que la API haya sido actualizada
+            setTimeout(() => {
+                fetchAndDisplayParticipants();
+            }, 500);  // Pequeño retraso para esperar que la API se actualice
+
+            // Limpiar el formulario después de agregar
+            document.getElementById('addParticipantForm').reset();
+        })
+        .catch(error => {
+            console.error('Error al agregar participante:', error);
+        });
+
+    refreshTable();
+}
+
+
+document.getElementById('loadButton').addEventListener('click', fetchAndDisplayParticipants);
+
+// Escuchar el evento de envío del formulario para agregar un participante
+document.getElementById('addParticipantForm').addEventListener('submit', addParticipant);
+
+
+function editParticipant(alias) {
+    // Obtener los datos del participante
+    fetch(`${url}/${alias}`)
+        .then(response => response.json())
+        .then(participant => {
+            // Prellenar los campos del formulario en el modal
+            document.getElementById('editNombre').value = participant.nombre;
+            document.getElementById('editEmail').value = participant.email;
+            document.getElementById('editAlias').value = participant.alias;
+            document.getElementById('editEdad').value = participant.edad;
+            document.getElementById('editCapa').value = participant.capa;
+
+            // Mostrar el modal de edición
+            const modal = new bootstrap.Modal(document.getElementById('editParticipantModal'));
+            modal.show();
+
+            // Actualizar el participante cuando se haga clic en "Guardar Cambios"
+            document.getElementById('saveChangesButton').onclick = function () {
+                updateParticipant(alias);
+            };
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos del participante:', error);
+        });
+}
+
+function updateParticipant(alias) {
+    const updatedParticipant = {
+        nombre: document.getElementById('editNombre').value,
+        email: document.getElementById('editEmail').value,
+        alias: document.getElementById('editAlias').value,
+        edad: document.getElementById('editEdad').value,
+        capa: document.getElementById('editCapa').value
+    };
+
+    fetch(`${url}/${alias}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedParticipant)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Participante actualizado:', data);
+            // Actualizar la tabla para reflejar los cambios
+            fetchAndDisplayParticipants();
+
+            // Cerrar el modal después de guardar los cambios
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editParticipantModal'));
+            modal.hide();
+        })
+        .catch(error => {
+            console.error('Error al actualizar el participante:', error);
+        });
+
+    refreshTable();
+}
+
+function refreshTable() {
+    const tableBody = document.getElementById('participantsTableBody');
+    tableBody.innerHTML = '';  // Limpiamos la tabla
+
+    // Volvemos a llamar a la función fetchAndDisplayParticipants para recargar los datos actualizados
+    fetchAndDisplayParticipants();
+}
