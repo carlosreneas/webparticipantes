@@ -11,26 +11,25 @@ function fetchAndDisplayParticipants() {
             return response.json();
         })
         .then(data => {
-            // Selecciona el cuerpo de la tabla
             const tableBody = document.getElementById('participantsTableBody');
-            let limit = 20;
+            tableBody.innerHTML = ''; // Limpiar el contenido de la tabla
 
+            let limit = 20;
             const limitedData = data.slice(0, limit);
 
-            // Recorre los datos y crea las filas
             limitedData.forEach(participant => {
                 const row = document.createElement('tr');
-                
                 row.innerHTML = `
                     <td>${participant.nombre}</td>
                     <td>${participant.email}</td>
                     <td>${participant.alias}</td>
                     <td>${participant.edad}</td>
-                    <td><button class="btn btn-info btn-sm" data-alias="${participant.alias}" onclick="showParticipantDetails('${participant.alias}')">Detalles</button></td>
+                    <td>
+                        <button class="btn btn-info btn-sm" data-alias="${participant.alias}" onclick="showParticipantDetails('${participant.alias}')">Detalles</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteParticipant('${participant.alias}')">Eliminar</button>
+                    </td>
                 `;
-                
                 tableBody.appendChild(row);
-
             });
         })
         .catch(error => {
@@ -38,11 +37,11 @@ function fetchAndDisplayParticipants() {
         });
 }
 
-
+// Función para mostrar los detalles del participante
 function showParticipantDetails(alias) {
     const modal = new bootstrap.Modal(document.getElementById('participantModal'));
 
-    fetch(`https://01a47aec-bab8-4181-915c-8ea7479ebb8c-00-2qfb8gml2uwtg.kirk.replit.dev/participantes/${alias}`)
+    fetch(`${url}/${alias}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -50,14 +49,11 @@ function showParticipantDetails(alias) {
             return response.json();
         })
         .then(participant => {
-            // Llenar el modal con los datos del participante
             document.getElementById('modalName').textContent = participant.nombre;
             document.getElementById('modalEmail').textContent = participant.email;
             document.getElementById('modalAlias').textContent = participant.alias;
             document.getElementById('modalAge').textContent = participant.edad;
             document.getElementById('modalCapa').textContent = participant.capa;
-
-            // Mostrar el modal
             modal.show();
         })
         .catch(error => {
@@ -65,7 +61,26 @@ function showParticipantDetails(alias) {
         });
 }
 
+// Función para eliminar un participante
+function deleteParticipant(alias) {
+    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este participante?");
+    
+    if (confirmDelete) {
+        fetch(`${url}/${alias}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo eliminar el participante');
+            }
+            alert('Participante eliminado correctamente.');
+            fetchAndDisplayParticipants(); // Recargar la lista
+        })
+        .catch(error => {
+            console.error('Hubo un problema al eliminar el participante:', error);
+        });
+    }
+}
 
-// Llama a la función para cargar los datos cuando se cargue la página
-//document.addEventListener('DOMContentLoaded', fetchAndDisplayParticipants);
+// Asignar el evento al botón "Cargar Participantes"
 document.getElementById('loadButton').addEventListener('click', fetchAndDisplayParticipants);
