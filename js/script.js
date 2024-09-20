@@ -57,6 +57,11 @@ function showParticipantDetails(alias) {
             document.getElementById('modalAge').textContent = participant.edad;
             document.getElementById('modalCapa').textContent = participant.capa;
 
+            document.getElementById("modalButtons").innerHTML = `
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> 
+                <button type="button" class="btn btn-danger" onclick="deleteParticipant('${participant.alias}')">Borrar</button> 
+            `
+
             // Mostrar el modal
             modal.show();
         })
@@ -65,6 +70,19 @@ function showParticipantDetails(alias) {
         });
 }
 
+
+function deleteParticipant(alias){
+    fetch(`https://01a47aec-bab8-4181-915c-8ea7479ebb8c-00-2qfb8gml2uwtg.kirk.replit.dev/participantes/${alias}`, {
+        method: "DELETE"
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            fetchAndDisplayParticipants()
+        })
+}
 
 // Llama a la función para cargar los datos cuando se cargue la página
 //document.addEventListener('DOMContentLoaded', fetchAndDisplayParticipants);
