@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba de pull</title>
+    <title>Document</title>
 </head>
 <body>
-    <h1>Clase de Web</h1>
-    <p>Solicitud de pull</p>
+    <?php
+    echo "hola";
+    $Hola = "hola";
+    echo $Hola;
+    ?>
+    
 </body>
 </html>
